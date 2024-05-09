@@ -154,7 +154,6 @@ const BannerCreate = () => {
                     >
                       Submit
                     </button>
-                    <ToastContainer />
                   </div>
                 </div>
               </div>
@@ -252,6 +251,7 @@ const BannerCreate = () => {
           </form>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

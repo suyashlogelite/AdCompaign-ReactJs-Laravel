@@ -107,7 +107,6 @@ class ImageController extends Controller
             $columnName = "image{$index}";
             $imageUrl = $image->$columnName;
 
-
             $filename = basename($imageUrl);
             $fullpath = public_path('images/' . $filename);
 
@@ -188,7 +187,6 @@ class ImageController extends Controller
         $validator = Validator::make($request->all(), [
             "title" => "required|min:3",
             "category" => "required",
-            "image1" => "mimes:jpg,jpeg,png,gif|max:10000",
         ]);
 
         if ($validator->fails()) {
@@ -209,12 +207,23 @@ class ImageController extends Controller
 
             foreach ($imageAll as $index => $imageColumn) {
                 if ($request->hasFile($imageColumn)) {
+                    $validationRules = [
+                        $imageColumn => 'image|mimes:jpeg,png,jpg,gif|max:5000',
+                    ];
+                    $validator = Validator::make($request->only($imageColumn), $validationRules);
+                    if ($validator->fails()) {
+                        return response()->json([
+                            'status' => 422,
+                            'errors' => $validator->messages()
+                        ], 422);
+                    }
+
                     $img = $request->file($imageColumn);
                     $ext = $img->getClientOriginalExtension();
                     $imageName = time() . '_' . $index . '_' . '.' . $ext;
                     $img->move(public_path() . '/images/', $imageName);
                     $path[$imageColumn] = asset('/images/' . $imageName);
-                    if (!empty($images->$imageColumn)) {
+                    if ($images->$imageColumn != null) {
                         $oldImagePath = public_path() . '/images/' . basename($images->$imageColumn);
                         unlink($oldImagePath);
                     }

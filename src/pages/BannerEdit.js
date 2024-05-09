@@ -66,7 +66,6 @@ const BannerEdit = () => {
         handleErrors(error);
       }
     };
-
     fetchData();
   }, [id]);
 
@@ -160,6 +159,13 @@ const BannerEdit = () => {
       });
   };
 
+  var error1 = inputErrorList.image1;
+  var error2 = inputErrorList.image2;
+  var error3 = inputErrorList.image3;
+  var error4 = inputErrorList.image4;
+  var error5 = inputErrorList.image5;
+  var error6 = inputErrorList.image6;
+
   return (
     <div className="container-fluid">
       {/* Form side */}
@@ -237,12 +243,14 @@ const BannerEdit = () => {
                           className="card col-md-6"
                           style={{ width: "12rem" }}
                         >
-                          <button
-                            type="button"
-                            onClick={() => deleteImage(index)}
-                            className="position-absolute top-0 end-0 btn-close border border-1 border-dark bg-danger"
-                            aria-label="Close"
-                          ></button>
+                          {files[index].file && (
+                            <button
+                              type="button"
+                              onClick={() => deleteImage(index)}
+                              className="position-absolute top-0 end-0 btn-close border border-1 border-dark bg-danger"
+                              aria-label="Close"
+                            ></button>
+                          )}
                           {renderImage(index)}
                           <input
                             type="file"
@@ -260,6 +268,36 @@ const BannerEdit = () => {
                           >
                             {files[index].file ? "Replace" : "Upload"}
                           </label>
+                          {index === 0 && error1 && (
+                            <span className="text-danger">
+                              {inputErrorList.image1}
+                            </span>
+                          )}
+                          {index === 1 && error2 && (
+                            <span className="text-danger">
+                              {inputErrorList.image2}
+                            </span>
+                          )}
+                          {index === 2 && error3 && (
+                            <span className="text-danger">
+                              {inputErrorList.image3}
+                            </span>
+                          )}
+                          {index === 3 && error4 && (
+                            <span className="text-danger">
+                              {inputErrorList.image4}
+                            </span>
+                          )}
+                          {index === 4 && error5 && (
+                            <span className="text-danger">
+                              {inputErrorList.image5}
+                            </span>
+                          )}
+                          {index === 5 && error6 && (
+                            <span className="text-danger">
+                              {inputErrorList.image6}
+                            </span>
+                          )}
                         </div>
                       </div>
                     ))}
